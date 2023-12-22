@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int number;
+    struct Node* next;
+} Node;
+
+void creatnode(Node* head, int n) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->number = n;
+    newNode->next = head;
+    Node* a = head;
+    while (a->next != head) {
+        a = (*a).next;
+    }
+    a->next = newNode;
+}
+
+
+void removenode(Node* removenext, Node* needremove,Node** head) {
+    if (needremove == head) {
+        *head = (*head)->next;
+        removenext->next = *head;
+        free(needremove);
+    }
+    
+    else {
+        removenext->next = needremove->next;
+        free(needremove);
+    }
+}
+
+
+
+int main() {
+    int N, M, Z, flag = 1;
+    printf("请输入学生总数N、数到M时点名、ZR的编号Z：");
+    scanf("%d %d %d", &N, &M, &Z);
+    Node* head = (Node*)malloc(sizeof(Node));
+    (*head).number = 1;
+    (*head).next = head;
+     for (int i = 2; i <= N; i++) {
+        creatnode(head, i);
+    }
+    Node* current = head;
+    Node* current1;
+    for (int a = N; a >= M; a--) {
+        for (int b = 1; b < M - 1; b++) {
+            current = current->next;
+            current1 = (current->next)->next;
+        }
+        if (current->number == Z) {
+            flag = 0;
+            break;
+        }
+        removenode(current, current1, &head);
+        current = current->next;
+    }
+    if (flag = 1) { printf("YES\n"); }
+    else { printf("NO\n"); }
+    return 0;
+}
+
