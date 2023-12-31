@@ -12,5 +12,7 @@ CHIP Or16 {
     OUT out[16];
 
     PARTS:
-    //// Replace this comment with your code.
+    Or8Way(in=a, out = Or8Waya);
+    Or8Way(in=b, out = Or8Wayb);
+    Or(a=Or8Waya, b=Or8Wayb, out=out);
 }
